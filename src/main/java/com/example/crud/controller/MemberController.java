@@ -2,6 +2,7 @@ package com.example.crud.controller;
 
 import com.example.crud.domain.Member;
 import com.example.crud.service.MemberService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,11 +11,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api")
 public class MemberController {
 
-    @Autowired
-    private MemberService memberService;
+    private final MemberService memberService;
 
     @PostMapping("/join")
     public ResponseEntity<String> join(@RequestBody Member member) {
