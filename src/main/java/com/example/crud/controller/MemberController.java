@@ -17,7 +17,7 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    @PostMapping("/join")
+    @PostMapping("/members/join")
     public ResponseEntity<String> join(@RequestBody Member member) {
         String result = memberService.join(member);
         if (result.contains("successfully")) {
@@ -27,7 +27,7 @@ public class MemberController {
         }
     }
 
-    @DeleteMapping("/signOut/{id}")
+    @DeleteMapping("/members/{id}/withdraw")
     public ResponseEntity<String> signOut(@PathVariable Integer id) {
         String result = memberService.signOut(id);
         if (result.contains("successfully")) {
