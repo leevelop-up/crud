@@ -1,14 +1,12 @@
 package com.example.crud.domain;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDate;
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -16,8 +14,11 @@ import java.time.LocalDate;
 @Table(name = "member")
 public class Member {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer Id;
-    private String Name;
+    @Column(name = "member_no")
+    private Integer id;
+    @Column(name = "member_name")
+    private String name;
+    @Column(name = "phone_number")
     private String phoneNumber;
     private String gender;
     private LocalDate birth;
@@ -25,11 +26,21 @@ public class Member {
     private String role;
 
     public void toEntity(Member member) {
-        this.memberName = member.getMemberName();
+        this.name = member.getName();
         this.phoneNumber = member.getPhoneNumber();
         this.birth = member.getBirth();
         this.email = member.getEmail();
         this.role = member.getRole();
     }
-
+    public String toString() {
+        return "Member{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", gender='" + gender + '\'' +
+                ", birth=" + birth +
+                ", email='" + email + '\'' +
+                ", role='" + role + '\'' +
+                '}';
+    }
 }

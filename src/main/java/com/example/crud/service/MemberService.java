@@ -1,11 +1,13 @@
 package com.example.crud.service;
 
 import com.example.crud.domain.Member;
+import com.example.crud.dto.MemberJoinRequestDto;
 import com.example.crud.repository.MemberRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -15,24 +17,25 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
-    public String join(Member member) {
-        try {
-            memberRepository.save(member);
-            return "Member joined successfully";
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "Join failed: " + e.getMessage();
-        }
+    public String join(MemberJoinRequestDto memberJoinRequestDto) {
+        LocalDate now = LocalDate.now();
+        Member member = Member.builder()
+                .name(memberJoinRequestDto.getName())
+                .phoneNumber(memberJoinRequestDto.getPhoneNumber())
+                .email(memberJoinRequestDto.getEmail())
+                .birth(now)
+                .gender(memberJoinRequestDto.getGender())
+                .role(memberJoinRequestDto.getRole())
+                .build();
+
+        memberRepository.save(member);
+
+        return "Member signed up successfully";
     }
 
-    public String signOut(Integer id) {
-        try {
-            memberRepository.deleteById(id);
-            return "Member signed out successfully";
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "Sign out failed: " + e.getMessage();
-        }
+    public String withdraw(Integer id) {
+        memberRepository.deleteById(id);
+        return "Member signed out successfully";
     }
 
     public Member search(Integer id) {
@@ -46,23 +49,12 @@ public class MemberService {
     }
 
     public List<Member> memberList() {
-        try {
-            return memberRepository.findAll();
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new IllegalArgumentException("List retrieval failed: " + e.getMessage());
-        }
+        return memberRepository.findAll();
     }
 
     public String updateMember(Integer id, Member member) {
-        try {
-            Member existingMember = search(id);
-            existingMember.toEntity(member);
-            memberRepository.save(existingMember);
-            return "Member updated successfully";
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "Update failed: " + e.getMessage();
-        }
+        Member existingMember = search(id);
+        existingMember.toEntity(member);
+        return "Member updated successfully";
     }
 }

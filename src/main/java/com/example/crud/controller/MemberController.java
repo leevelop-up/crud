@@ -1,9 +1,9 @@
 package com.example.crud.controller;
 
 import com.example.crud.domain.Member;
+import com.example.crud.dto.MemberJoinRequestDto;
 import com.example.crud.service.MemberService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,8 +18,8 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping("/members/join")
-    public ResponseEntity<String> join(@RequestBody Member member) {
-        String result = memberService.join(member);
+    public ResponseEntity<String> join(@RequestBody MemberJoinRequestDto memberJoinRequestDto) {
+        String result = memberService.join(memberJoinRequestDto);
         if (result.contains("successfully")) {
             return ResponseEntity.ok(result);
         } else {
@@ -28,8 +28,8 @@ public class MemberController {
     }
 
     @DeleteMapping("/members/{id}/withdraw")
-    public ResponseEntity<String> signOut(@PathVariable Integer id) {
-        String result = memberService.signOut(id);
+    public ResponseEntity<String> withdraw(@PathVariable Integer id) {
+        String result = memberService.withdraw(id);
         if (result.contains("successfully")) {
             return ResponseEntity.ok(result);
         } else {
