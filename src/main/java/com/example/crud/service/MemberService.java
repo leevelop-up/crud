@@ -2,13 +2,19 @@ package com.example.crud.service;
 
 import com.example.crud.domain.Member;
 import com.example.crud.dto.MemberJoinRequestDto;
+import com.example.crud.exception.CrudException;
 import com.example.crud.repository.MemberRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+
+import static com.example.crud.exception.ErrorCode.MEMBER_DUPLICATION;
 
 @Service
 @RequiredArgsConstructor
@@ -29,8 +35,7 @@ public class MemberService {
                 .build();
 
         memberRepository.save(member);
-
-        return "Member signed up successfully";
+        return "success";
     }
 
     public String withdraw(Integer id) {
@@ -39,17 +44,19 @@ public class MemberService {
     }
 
     public Member search(Integer id) {
-        try {
-            return memberRepository.findById(id)
-                    .orElseThrow(() -> new IllegalArgumentException("Member not found"));
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new IllegalArgumentException("Search failed: " + e.getMessage());
-        }
+        return memberRepository.findById(id).orElseThrow(() -> {
+            throw new CrudException(MEMBER_DUPLICATION, "Member not found");
+        });
     }
 
-    public List<Member> memberList() {
-        return memberRepository.findAll();
+    public Page<Member> memberList(String name, Pageable page) {
+        Page<Member> result;
+        if (name != null) {
+            result = memberRepository.findByNameContaining(name, page);
+        } else {
+            result = memberRepository.findAll(page);
+        }
+        return result;
     }
 
     public String updateMember(Integer id, Member member) {

@@ -3,7 +3,7 @@ spring:
     activate:
       on-profile: local
   application:
-    name: coupon-core
+    name: curd
   datasource:
     url: jdbc:mariadb://leevelop.com:2906/practice
     driver-class-name: org.mariadb.jdbc.Driver
@@ -26,7 +26,7 @@ spring:
     activate:
       on-profile: prod
   application:
-    name: coupon-core
+    name: crud
   datasource:
     hikari:
       url: jdbc:mariadb://leevelop.com:2906/practice
