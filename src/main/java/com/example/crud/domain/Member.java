@@ -1,8 +1,8 @@
 package com.example.crud.domain;
 
+import com.example.crud.dto.MemberJoinRequestDto;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDate;
 @Getter
@@ -25,7 +25,7 @@ public class Member {
     private String email;
     private String role;
 
-    public void toEntity(Member member) {
+    public void toEntity(MemberJoinRequestDto member) {
         this.name = member.getName();
         this.phoneNumber = member.getPhoneNumber();
         this.birth = member.getBirth();

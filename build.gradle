@@ -23,7 +23,7 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	implementation group: 'org.mariadb.jdbc', name: 'mariadb-java-client'
-
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	// Lombok
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'

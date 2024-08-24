@@ -2,6 +2,7 @@ package com.example.crud.service;
 
 import com.example.crud.domain.Member;
 import com.example.crud.dto.MemberJoinRequestDto;
+import com.example.crud.dto.MemberJoinResponseDto;
 import com.example.crud.exception.CrudException;
 import com.example.crud.repository.MemberRepository;
 import jakarta.transaction.Transactional;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.example.crud.exception.ErrorCode.MEMBER_DUPLICATION;
 
@@ -23,7 +25,8 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
-    public String join(MemberJoinRequestDto memberJoinRequestDto) {
+    public void join(MemberJoinRequestDto memberJoinRequestDto) {
+
         LocalDate now = LocalDate.now();
         Member member = Member.builder()
                 .name(memberJoinRequestDto.getName())
@@ -35,18 +38,17 @@ public class MemberService {
                 .build();
 
         memberRepository.save(member);
-        return "success";
     }
 
-    public String withdraw(Integer id) {
+    public void withdraw(Integer id) {
+        memberRepository.findById(id)
+                .orElseThrow(() -> {throw new CrudException(MEMBER_DUPLICATION, "Member not found");});
         memberRepository.deleteById(id);
-        return "Member signed out successfully";
     }
 
     public Member search(Integer id) {
-        return memberRepository.findById(id).orElseThrow(() -> {
-            throw new CrudException(MEMBER_DUPLICATION, "Member not found");
-        });
+        return memberRepository.findById(id)
+                .orElseThrow(() -> {throw new CrudException(MEMBER_DUPLICATION, "Member not found");});
     }
 
     public Page<Member> memberList(String name, Pageable page) {
@@ -59,9 +61,10 @@ public class MemberService {
         return result;
     }
 
-    public String updateMember(Integer id, Member member) {
+    public void updateMember(Integer id, MemberJoinRequestDto memberJoinRequestDto) {
+        memberRepository.findById(id)
+                .orElseThrow(() -> {throw new CrudException(MEMBER_DUPLICATION, "Member not found");});
         Member existingMember = search(id);
-        existingMember.toEntity(member);
-        return "Member updated successfully";
+        existingMember.toEntity(memberJoinRequestDto);
     }
 }
