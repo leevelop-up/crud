@@ -4,6 +4,9 @@ import com.example.crud.domain.Member;
 import com.example.crud.dto.MemberJoinRequestDto;
 import com.example.crud.dto.MemberJoinResponseDto;
 import com.example.crud.dto.MemberListResponseDto;
+import com.example.crud.dto.response.ApiResponse;
+import com.example.crud.dto.response.CrudPage;
+import com.example.crud.enums.ReturnCode;
 import com.example.crud.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -25,30 +28,26 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping("/members/join")
-    public ResponseEntity<MemberJoinResponseDto> join(@RequestBody @Valid MemberJoinRequestDto memberJoinRequestDto) {
+    public ApiResponse<?> join(@RequestBody @Valid MemberJoinRequestDto memberJoinRequestDto) {
         memberService.joinMember(memberJoinRequestDto);
-        MemberJoinResponseDto responseDto = MemberJoinResponseDto.builder().returnStatus(HttpStatus.OK.toString()).returnMessage("요청에 성공하였습니다.").build();
-        return ResponseEntity.ok(responseDto);
+        return ApiResponse.of(ReturnCode.SUCCESS);
     }
 
     @DeleteMapping("/members/{id}")
-    public ResponseEntity<MemberJoinResponseDto> deleteMember(@PathVariable Integer id) {
+    public ApiResponse<?> deleteMember(@PathVariable Integer id) {
         memberService.deleteMember(id);
-        MemberJoinResponseDto responseDto = MemberJoinResponseDto.builder().returnStatus(HttpStatus.OK.toString()).returnMessage("요청에 성공하였습니다.").build();
-        return ResponseEntity.ok(responseDto);
+        return ApiResponse.of(ReturnCode.SUCCESS);
     }
 
     @GetMapping("/members/search")
-    public Page<MemberListResponseDto> searchMember(@RequestParam(required = false) String name, @PageableDefault(size = 5, sort = "id", direction = Sort.Direction.DESC)  Pageable page) {
+    public ApiResponse<?> searchMember(@RequestParam(required = false) String name, @PageableDefault(size = 5, sort = "id", direction = Sort.Direction.DESC)  Pageable page) {
         Page<Member> searchMember = memberService.searchMember(name, page);
-
-        return searchMember.map(MemberListResponseDto::new);
+        return ApiResponse.of(CrudPage.of(searchMember.map(MemberListResponseDto::new)));
     }
 
     @PatchMapping("/members/{id}")
-    public ResponseEntity<MemberJoinResponseDto> updateMember(@PathVariable Integer id, @RequestBody MemberJoinRequestDto memberJoinRequestDto) {
+    public ApiResponse<?> updateMember(@PathVariable Integer id, @RequestBody MemberJoinRequestDto memberJoinRequestDto) {
         memberService.updateMember(id, memberJoinRequestDto);
-        MemberJoinResponseDto responseDto = MemberJoinResponseDto.builder().returnStatus(HttpStatus.OK.toString()).returnMessage("요청에 성공하였습니다.").build();
-        return ResponseEntity.ok(responseDto);
+        return ApiResponse.of(ReturnCode.SUCCESS);
     }
 }
