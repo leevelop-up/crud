@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.example.crud.exception.ErrorCode.MEMBER_DUPLICATION;
+import static com.example.crud.exception.ErrorCode.VALUE_NOT_FOUND;
 
 @Service
 @RequiredArgsConstructor
@@ -25,8 +26,10 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
-    public void join(MemberJoinRequestDto memberJoinRequestDto) {
-
+    public void joinMember(MemberJoinRequestDto memberJoinRequestDto) {
+        if (memberJoinRequestDto.getName() == null || memberJoinRequestDto.getPhoneNumber() == null || memberJoinRequestDto.getEmail() == null || memberJoinRequestDto.getGender() == null || memberJoinRequestDto.getRole() == null) {
+            throw new CrudException(VALUE_NOT_FOUND, "Invalid member data");
+        }
         LocalDate now = LocalDate.now();
         Member member = Member.builder()
                 .name(memberJoinRequestDto.getName())
@@ -40,24 +43,29 @@ public class MemberService {
         memberRepository.save(member);
     }
 
-    public void withdraw(Integer id) {
+    public void deleteMember(Integer id) {
         memberRepository.findById(id)
-                .orElseThrow(() -> {throw new CrudException(MEMBER_DUPLICATION, "Member not found");});
+                .orElseThrow(() -> {throw new CrudException(VALUE_NOT_FOUND, "Member not found");});
         memberRepository.deleteById(id);
     }
 
     public Member search(Integer id) {
         return memberRepository.findById(id)
-                .orElseThrow(() -> {throw new CrudException(MEMBER_DUPLICATION, "Member not found");});
+                .orElseThrow(() -> {throw new CrudException(VALUE_NOT_FOUND, "Member not found");});
     }
 
-    public Page<Member> memberList(String name, Pageable page) {
+    public Page<Member> searchMember(String name, Pageable page) {
+
         Page<Member> result;
         if (name != null) {
             result = memberRepository.findByNameContaining(name, page);
         } else {
             result = memberRepository.findAll(page);
         }
+        if(result.isEmpty()) {
+            throw new CrudException(VALUE_NOT_FOUND, "No members found");
+        }
+
         return result;
     }
 
