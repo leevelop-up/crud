@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class MemberJoinRequestDto {
+public class MemberJoinRequest {
     @NotBlank(message = "이름을 입력해주세요")
     private String name;
     @Pattern(regexp = "^\\d{3}-\\d{4}-\\d{4}$", message = "전화번호는 '010-2222-1111' 형식이어야 합니다.")
@@ -22,7 +22,6 @@ public class MemberJoinRequestDto {
     private LocalDate birth;
     @Email(message = "이메일 형식이 아닙니다.")
     private String email;
-    private String role;
 
     public String toString() {
         return "Member{" +
@@ -31,7 +30,6 @@ public class MemberJoinRequestDto {
                 ", gender='" + gender + '\'' +
                 ", birth=" + birth +
                 ", email='" + email + '\'' +
-                ", role='" + role + '\'' +
                 '}';
     }
 }

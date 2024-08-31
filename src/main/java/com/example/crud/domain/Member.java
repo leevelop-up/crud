@@ -1,6 +1,6 @@
 package com.example.crud.domain;
 
-import com.example.crud.dto.MemberJoinRequestDto;
+import com.example.crud.dto.MemberJoinRequest;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -25,13 +25,6 @@ public class Member {
     private String email;
     private String role;
 
-    public void toEntity(MemberJoinRequestDto member) {
-        this.name = member.getName();
-        this.phoneNumber = member.getPhoneNumber();
-        this.birth = member.getBirth();
-        this.email = member.getEmail();
-        this.role = member.getRole();
-    }
     public String toString() {
         return "Member{" +
                 "id=" + id +
@@ -42,5 +35,12 @@ public class Member {
                 ", email='" + email + '\'' +
                 ", role='" + role + '\'' +
                 '}';
+    }
+
+    public void updateMember(String name, String phoneNumber, String email, LocalDate birth) {
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+        this.birth = birth;
+        this.email = email;
     }
 }

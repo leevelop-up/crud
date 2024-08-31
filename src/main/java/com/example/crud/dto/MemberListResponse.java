@@ -9,7 +9,7 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
-public class MemberListResponseDto {
+public class MemberListResponse {
     private String returnStatus;
     private String returnMessage;
     private String name;
@@ -19,7 +19,7 @@ public class MemberListResponseDto {
     private String gender;
     private String role;
 
-    public MemberListResponseDto(Member member) {
+    public MemberListResponse(Member member) {
         this.returnMessage = member.getName();
         this.name = member.getName();
         this.phoneNumber = member.getPhoneNumber();
@@ -30,7 +30,7 @@ public class MemberListResponseDto {
     }
 
     @Builder
-    public MemberListResponseDto(String returnStatus, String returnMessage) {
+    public MemberListResponse(String returnStatus, String returnMessage) {
         this.returnStatus = returnStatus;
         this.returnMessage = returnMessage;
     }

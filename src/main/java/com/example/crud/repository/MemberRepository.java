@@ -1,14 +1,57 @@
 package com.example.crud.repository;
 
 import com.example.crud.domain.Member;
+import com.example.crud.domain.QMember;
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.JPQLQueryFactory;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
+import static com.example.crud.domain.QMember.member;
+import static org.springframework.util.StringUtils.hasText;
+
+@RequiredArgsConstructor
 @Repository
-public interface MemberRepository extends JpaRepository<Member, Integer> {
+public class MemberRepository {
+    private final JPQLQueryFactory queryFactory;
+
+    public Page<Member> getQueryFactory(String name,String gender,  Pageable pageable) {
+        QMember member = QMember.member;
 
 
-    Page<Member> findByNameContaining(String keyword, Pageable page);
+        // Fetch the total count for pagination
+        long total = queryFactory
+                .selectFrom(member)
+                .where(
+                        MemberName(name),
+                        MemberGender(gender)
+                )
+                .fetchCount();
+
+        // Fetch the members based on pagination and condition
+        List<Member> members = queryFactory
+                .selectFrom(member)
+                .where(
+                        MemberName(name),
+                        MemberGender(gender)
+                )
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        // Return the results as a Page object
+        return new PageImpl<>(members, pageable, total);
+    }
+
+    private BooleanExpression MemberName(String Name) {
+        return hasText(Name) ? member.name.eq(Name):null;
+    }
+    private BooleanExpression MemberGender(String Gender) {
+        return hasText(Gender) ? member.gender.eq(Gender):null;
+    }
 }
