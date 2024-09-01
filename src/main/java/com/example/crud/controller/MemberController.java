@@ -1,9 +1,9 @@
 package com.example.crud.controller;
 
 import com.example.crud.domain.Member;
-import com.example.crud.dto.MemberJoinRequestDto;
-import com.example.crud.dto.MemberJoinResponseDto;
-import com.example.crud.dto.MemberListResponseDto;
+import com.example.crud.dto.MemberJoinRequest;
+import com.example.crud.dto.MemberListResponse;
+import com.example.crud.dto.param.MemberJoinParam;
 import com.example.crud.dto.response.ApiResponse;
 import com.example.crud.dto.response.CrudPage;
 import com.example.crud.enums.ReturnCode;
@@ -14,11 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -28,8 +24,9 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping("/members/join")
-    public ApiResponse<?> join(@RequestBody @Valid MemberJoinRequestDto memberJoinRequestDto) {
-        memberService.joinMember(memberJoinRequestDto);
+    public ApiResponse<?> join(@RequestBody @Valid MemberJoinRequest memberJoinRequest) {
+        MemberJoinParam param = memberJoinRequest.toParam();
+        memberService.joinMember(param);
         return ApiResponse.of(ReturnCode.SUCCESS);
     }
 
@@ -40,14 +37,14 @@ public class MemberController {
     }
 
     @GetMapping("/members/search")
-    public ApiResponse<?> searchMember(@RequestParam(required = false) String name, @PageableDefault(size = 5, sort = "id", direction = Sort.Direction.DESC)  Pageable page) {
-        Page<Member> searchMember = memberService.searchMember(name, page);
-        return ApiResponse.of(CrudPage.of(searchMember.map(MemberListResponseDto::new)));
+    public ApiResponse<?> searchMember(@RequestParam(required = false) String name,@RequestParam(required = false) String Gender, @PageableDefault(size = 5, sort = "id", direction = Sort.Direction.DESC)  Pageable page) {
+        Page<Member> searchMember = memberService.searchMember(name, Gender,page);
+        return ApiResponse.of(CrudPage.of(searchMember.map(MemberListResponse::new)));
     }
 
     @PatchMapping("/members/{id}")
-    public ApiResponse<?> updateMember(@PathVariable Integer id, @RequestBody MemberJoinRequestDto memberJoinRequestDto) {
-        memberService.updateMember(id, memberJoinRequestDto);
+    public ApiResponse<?> updateMember(@PathVariable Integer id, @RequestBody MemberJoinRequest memberJoinRequest) {
+        memberService.updateMember(id, memberJoinRequest);
         return ApiResponse.of(ReturnCode.SUCCESS);
     }
 }

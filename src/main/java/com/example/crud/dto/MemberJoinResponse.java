@@ -5,20 +5,18 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
-
 @Getter
 @Setter
-public class MemberJoinResponseDto {
+public class MemberJoinResponse {
     private String returnStatus;
     private String returnMessage;
 
-    public MemberJoinResponseDto(Member member) {
+    public MemberJoinResponse(Member member) {
         this.returnMessage = member.getName();
 
     }
     @Builder
-    public MemberJoinResponseDto(String returnStatus, String returnMessage) {
+    public MemberJoinResponse(String returnStatus, String returnMessage) {
         this.returnStatus = returnStatus;
         this.returnMessage = returnMessage;
     }
