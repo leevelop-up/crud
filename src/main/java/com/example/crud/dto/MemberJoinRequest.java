@@ -1,5 +1,6 @@
 package com.example.crud.dto;
 
+import com.example.crud.dto.param.MemberJoinParam;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -22,6 +23,16 @@ public class MemberJoinRequest {
     private LocalDate birth;
     @Email(message = "이메일 형식이 아닙니다.")
     private String email;
+
+    public MemberJoinParam toParam() {
+        return MemberJoinParam.builder()
+                .name(name)
+                .phoneNumber(phoneNumber)
+                .gender(gender)
+                .birth(birth)
+                .email(email)
+                .build();
+    }
 
     public String toString() {
         return "Member{" +

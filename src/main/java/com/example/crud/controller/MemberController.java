@@ -3,6 +3,7 @@ package com.example.crud.controller;
 import com.example.crud.domain.Member;
 import com.example.crud.dto.MemberJoinRequest;
 import com.example.crud.dto.MemberListResponse;
+import com.example.crud.dto.param.MemberJoinParam;
 import com.example.crud.dto.response.ApiResponse;
 import com.example.crud.dto.response.CrudPage;
 import com.example.crud.enums.ReturnCode;
@@ -24,7 +25,8 @@ public class MemberController {
 
     @PostMapping("/members/join")
     public ApiResponse<?> join(@RequestBody @Valid MemberJoinRequest memberJoinRequest) {
-        memberService.joinMember(memberJoinRequest);
+        MemberJoinParam param = memberJoinRequest.toParam();
+        memberService.joinMember(param);
         return ApiResponse.of(ReturnCode.SUCCESS);
     }
 

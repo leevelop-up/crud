@@ -2,6 +2,7 @@ package com.example.crud.service;
 
 import com.example.crud.domain.Member;
 import com.example.crud.dto.MemberJoinRequest;
+import com.example.crud.dto.param.MemberJoinParam;
 import com.example.crud.exception.CrudException;
 import com.example.crud.repository.MemberJpaRepository;
 import com.example.crud.repository.MemberRepository;
@@ -23,19 +24,8 @@ public class MemberService {
     private final MemberJpaRepository memberJpaRepository;
     private final MemberRepository memberRepository;
 
-    public void joinMember(MemberJoinRequest memberJoinRequest) {
-        if (memberJoinRequest.getName() == null || memberJoinRequest.getPhoneNumber() == null || memberJoinRequest.getEmail() == null || memberJoinRequest.getGender() == null) {
-            throw new CrudException(VALUE_NOT_FOUND, "Invalid member data");
-        }
-        LocalDate now = LocalDate.now();
-        Member member = Member.builder()
-                .name(memberJoinRequest.getName())
-                .phoneNumber(memberJoinRequest.getPhoneNumber())
-                .email(memberJoinRequest.getEmail())
-                .birth(now)
-                .gender(memberJoinRequest.getGender())
-                .build();
-
+    public void joinMember(MemberJoinParam param) {
+        Member member = param.toDomain();
         memberJpaRepository.save(member);
     }
 
