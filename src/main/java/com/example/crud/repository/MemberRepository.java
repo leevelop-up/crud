@@ -2,6 +2,7 @@ package com.example.crud.repository;
 
 import com.example.crud.domain.Member;
 import com.example.crud.domain.QMember;
+import com.example.crud.enums.Gender;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.JPQLQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +21,7 @@ import static org.springframework.util.StringUtils.hasText;
 public class MemberRepository {
     private final JPQLQueryFactory queryFactory;
 
-    public Page<Member> getQueryFactory(String name,String gender,  Pageable pageable) {
+    public Page<Member> getQueryFactory(String name, String gender,  Pageable pageable) {
         QMember member = QMember.member;
 
 
@@ -48,10 +49,10 @@ public class MemberRepository {
         return new PageImpl<>(members, pageable, total);
     }
 
-    private BooleanExpression MemberName(String Name) {
-        return hasText(Name) ? member.name.eq(Name):null;
+    private BooleanExpression MemberName(String name) {
+        return hasText(name) ? member.name.eq(name):null;
     }
-    private BooleanExpression MemberGender(String Gender) {
-        return hasText(Gender) ? member.gender.eq(Gender):null;
+    private BooleanExpression MemberGender(String gender) {
+        return hasText(gender) ? member.gender.eq(Gender.valueOf(gender)) : null;
     }
 }

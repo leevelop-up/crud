@@ -9,8 +9,8 @@ services:
     environment:
       - MYSQL_DATABASE=crud
       - MYSQL_USER=crudUser
-      - MYSQL_PASSWORD=1234
-      - MYSQL_ROOT_PASSWORD=1234
+      - MYSQL_PASSWORD=${PASSWD}
+      - MYSQL_ROOT_PASSWORD=${PASSWD}
       - TZ=UTC
     volumes:
       - ./mysql/init:/docker-entrypoint-initdb.d

@@ -1,10 +1,15 @@
 package com.example.crud.domain;
 
 import com.example.crud.dto.MemberJoinRequest;
+import com.example.crud.enums.Gender;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -12,18 +17,20 @@ import java.time.LocalDate;
 @Builder
 @Entity
 @Table(name = "member")
-public class Member {
+public class Member extends BaseTimeEntity{
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "member_no")
     private Integer id;
-    @Column(name = "member_name")
     private String name;
     @Column(name = "phone_number")
     private String phoneNumber;
-    private String gender;
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
     private LocalDate birth;
     private String email;
+    private String password;
     private String role;
+
+
 
     public String toString() {
         return "Member{" +
@@ -37,9 +44,10 @@ public class Member {
                 '}';
     }
 
-    public void updateMember(String name, String phoneNumber, String email, LocalDate birth) {
+    public void updateMember(String name, String phoneNumber,Gender gender, String email, LocalDate birth) {
         this.name = name;
         this.phoneNumber = phoneNumber;
+        this.gender = gender;
         this.birth = birth;
         this.email = email;
     }

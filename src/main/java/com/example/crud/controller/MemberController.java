@@ -37,14 +37,15 @@ public class MemberController {
     }
 
     @GetMapping("/members/search")
-    public ApiResponse<?> searchMember(@RequestParam(required = false) String name,@RequestParam(required = false) String Gender, @PageableDefault(size = 5, sort = "id", direction = Sort.Direction.DESC)  Pageable page) {
-        Page<Member> searchMember = memberService.searchMember(name, Gender,page);
+    public ApiResponse<?> searchMember(@RequestParam(required = false) String name,@RequestParam(required = false) String gender, @PageableDefault(size = 5, sort = "id", direction = Sort.Direction.DESC)  Pageable page) {
+        Page<Member> searchMember = memberService.searchMember(name, gender, page);
         return ApiResponse.of(CrudPage.of(searchMember.map(MemberListResponse::new)));
     }
 
     @PatchMapping("/members/{id}")
     public ApiResponse<?> updateMember(@PathVariable Integer id, @RequestBody MemberJoinRequest memberJoinRequest) {
-        memberService.updateMember(id, memberJoinRequest);
+        MemberJoinParam param = memberJoinRequest.toParam();
+        memberService.updateMember(id, param);
         return ApiResponse.of(ReturnCode.SUCCESS);
     }
 }

@@ -1,6 +1,7 @@
 package com.example.crud.dto;
 
 import com.example.crud.domain.Member;
+import com.example.crud.enums.Gender;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,7 +17,7 @@ public class MemberListResponse {
     private String phoneNumber;
     private String email;
     private LocalDate birth;
-    private String gender;
+    private Gender gender;
     private String role;
 
     public MemberListResponse(Member member) {
