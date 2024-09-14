@@ -1,6 +1,7 @@
 package com.example.crud.dto.param;
 
 import com.example.crud.domain.Member;
+import com.example.crud.enums.Gender;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
@@ -21,19 +22,33 @@ public class MemberJoinParam {
     @NotBlank
     private String phoneNumber;
     @NotBlank
-    private String gender;
+    private Gender gender;
     @NotNull
     private LocalDate birth;
     @NotBlank
     private String email;
+    @NotBlank
+    private String password;
 
+    public String toString() {
+        return "Member{" +
+                ", name='" + name + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", gender='" + gender + '\'' +
+                ", birth=" + birth +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
     public Member toDomain() {
         return Member.builder()
                 .name(name)
                 .phoneNumber(phoneNumber)
                 .email(email)
+                .password(password)
                 .birth(birth)
                 .gender(gender)
+                .role("USER")
                 .build();
     }
 }

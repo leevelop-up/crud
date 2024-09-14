@@ -25,6 +25,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
 
     public void joinMember(MemberJoinParam param) {
+        System.out.println(param.toString());
         Member member = param.toDomain();
         memberJpaRepository.save(member);
     }
@@ -46,15 +47,16 @@ public class MemberService {
         return result;
     }
 
-    public void updateMember(Integer id, MemberJoinRequest memberJoinRequest) {
+    public void updateMember(Integer id, MemberJoinParam param) {
         Member existingMember = memberJpaRepository.findById(id)
                 .orElseThrow(() -> {throw new CrudException(VALUE_NOT_FOUND, "Member not found");});
 
         existingMember.updateMember(
-                memberJoinRequest.getName(),
-                memberJoinRequest.getPhoneNumber(),
-                memberJoinRequest.getEmail(),
-                memberJoinRequest.getBirth()
+                param.getName(),
+                param.getPhoneNumber(),
+                param.getGender(),
+                param.getEmail(),
+                param.getBirth()
         );
 
     }
