@@ -21,7 +21,7 @@ public class ShopController {
     final ShopService shopService;
 
 
-    @PostMapping("/shops/register")
+    @PostMapping("/shops")
     public ApiResponse<?> register(@RequestBody @Valid ShopRegisterRequest shopRegisterRequest) {
         ShopRegisterParam param = shopRegisterRequest.toParam();
         shopService.registerShop(param);
@@ -34,7 +34,7 @@ public class ShopController {
         return ApiResponse.of(ReturnCode.SUCCESS);
     }
 
-    @GetMapping("/shops/search")
+    @GetMapping("/shops")
     public ApiResponse<?> search(@RequestParam(required = false) String name, @RequestParam(required = false) String city, @RequestParam(required = false) String category, @RequestParam(required = false) String district, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
         Pageable pageable = PageRequest.of(page, size);
         return ApiResponse.of(shopService.searchShop(name, city, category, district, pageable));

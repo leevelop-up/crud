@@ -30,8 +30,10 @@ public class ShopUpdateRequest {
     @NotNull
     private Integer capacity;
 
+    @NotNull
     @JsonFormat(pattern = "HH:mm:ss")
     private LocalTime openTime;
+    @NotNull
     @JsonFormat(pattern = "HH:mm:ss")
     private LocalTime closeTime;
 

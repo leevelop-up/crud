@@ -27,7 +27,7 @@ public class ShopService {
     public void updateShop(Integer id, ShopUpdateParam param) {
         Shop shop = shopJpaRepository.findById(id)
                 .orElseThrow(() -> {throw new CrudException(VALUE_NOT_FOUND, "Shop not found");});
-        shop.updateFromDto(param);
+        shop.update(param);
     }
 
     public Page<Shop> searchShop(String name, String city, String category, String district, Pageable pageable){

@@ -29,9 +29,10 @@ public class ShopRegisterRequest {
     @NotNull
     private Integer capacity;
 
-
+    @NotNull
     @JsonFormat(pattern = "HH:mm:ss")
     private LocalTime openTime;
+    @NotNull
     @JsonFormat(pattern = "HH:mm:ss")
     private LocalTime closeTime;
 

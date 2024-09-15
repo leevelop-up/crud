@@ -43,7 +43,7 @@ public class Shop extends BaseTimeEntity{
                 '}';
     }
 
-    public void updateFromDto(ShopUpdateParam param) {
+    public void update(ShopUpdateParam param) {
         this.name = param.getName();
         this.rating = param.getRating();
         this.category = param.getCategory();
