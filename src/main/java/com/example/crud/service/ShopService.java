@@ -1,12 +1,10 @@
 package com.example.crud.service;
 
-import com.example.crud.domain.Member;
 import com.example.crud.domain.Shop;
 import com.example.crud.dto.param.ShopRegisterParam;
 import com.example.crud.dto.param.ShopUpdateParam;
 import com.example.crud.exception.CrudException;
 import com.example.crud.repository.ShopJpaRepository;
-import com.example.crud.repository.ShopListRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -20,7 +18,6 @@ import static com.example.crud.exception.ErrorCode.VALUE_NOT_FOUND;
 @Transactional
 public class ShopService {
     private final ShopJpaRepository shopJpaRepository;
-    private final ShopListRepository shopListRepository;
     public void registerShop(ShopRegisterParam shopRegisterParam) {
         Shop shop = shopRegisterParam.toDomain();
         shopJpaRepository.save(shop);
@@ -35,11 +32,7 @@ public class ShopService {
 
     public Page<Shop> searchShop(String name, String city, String category, String district, Pageable pageable){
         Page<Shop> result;
-        if (name != null) {
-            result = shopListRepository.getQueryFactory(name,city,category,district,pageable);
-        } else {
-            result = shopJpaRepository.findAll(pageable);
-        }
+        result = shopJpaRepository.search(name, city, category, district, pageable);
         return result;
     }
 

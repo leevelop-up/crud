@@ -16,7 +16,7 @@ public class ShopRegisterParam {
 
     @NotBlank
     private String name;
-    @NotBlank
+    @NotNull
     private Float rating;
     @NotBlank
     private String category;
@@ -24,7 +24,7 @@ public class ShopRegisterParam {
     private String city;
     @NotBlank
     private String district;
-    @NotBlank
+    @NotNull
     private Integer capacity;
     @NotNull
     private LocalTime openTime;

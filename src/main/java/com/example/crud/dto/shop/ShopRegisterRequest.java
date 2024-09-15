@@ -18,7 +18,7 @@ import java.time.LocalTime;
 public class ShopRegisterRequest {
     @NotBlank
     private String name;
-    @NotBlank
+    @NotNull
     private Float rating;
     @NotBlank
     private String category;
@@ -26,7 +26,7 @@ public class ShopRegisterRequest {
     private String city;
     @NotBlank
     private String district;
-    @NotBlank
+    @NotNull
     private Integer capacity;
 
 

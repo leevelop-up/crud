@@ -4,6 +4,7 @@ import com.example.crud.dto.param.ShopRegisterParam;
 import com.example.crud.dto.param.ShopUpdateParam;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,7 +19,7 @@ import java.time.LocalTime;
 public class ShopUpdateRequest {
     @NotBlank
     private String name;
-    @NotBlank
+    @NotNull
     private Float rating;
     @NotBlank
     private String category;
@@ -26,7 +27,7 @@ public class ShopUpdateRequest {
     private String city;
     @NotBlank
     private String district;
-    @NotBlank
+    @NotNull
     private Integer capacity;
 
     @JsonFormat(pattern = "HH:mm:ss")

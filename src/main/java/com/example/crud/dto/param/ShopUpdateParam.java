@@ -15,7 +15,7 @@ import java.time.LocalTime;
 public class ShopUpdateParam {
     @NotBlank
     private String name;
-    @NotBlank
+    @NotNull
     private Float rating;
     @NotBlank
     private String category;
@@ -23,7 +23,7 @@ public class ShopUpdateParam {
     private String city;
     @NotBlank
     private String district;
-    @NotBlank
+    @NotNull
     private Integer capacity;
     @NotNull
     private LocalTime openTime;
