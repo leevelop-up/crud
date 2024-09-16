@@ -2,6 +2,7 @@ package com.example.crud.service;
 
 import com.example.crud.domain.Shop;
 import com.example.crud.dto.param.ShopRegisterParam;
+import com.example.crud.dto.param.ShopSearchParam;
 import com.example.crud.dto.param.ShopUpdateParam;
 import com.example.crud.exception.CrudException;
 import com.example.crud.repository.ShopJpaRepository;
@@ -30,17 +31,17 @@ public class ShopService {
         shop.update(param);
     }
 
-    public Page<Shop> searchShop(String name, String city, String category, String district, Pageable pageable){
+    public Page<Shop> searchShop(ShopSearchParam shopSearchParam, Pageable pageable){
         Page<Shop> result;
-        result = shopJpaRepository.search(name, city, category, district, pageable);
+        result = shopJpaRepository.search(shopSearchParam, pageable);
         return result;
     }
 
 
     public void deleteShop(Integer id) {
-        shopJpaRepository.findById(id)
+        Shop shop = shopJpaRepository.findById(id)
                 .orElseThrow(() -> {throw new CrudException(VALUE_NOT_FOUND, "Shop not found");});
-        shopJpaRepository.deleteById(id);
+        shopJpaRepository.delete(shop);
     }
 
 }

@@ -3,6 +3,7 @@ package com.example.crud.repository;
 
 import com.example.crud.domain.QShop;
 import com.example.crud.domain.Shop;
+import com.example.crud.dto.param.ShopSearchParam;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.jpa.JPQLQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -20,26 +21,26 @@ public class ShopCustomRepositoryImpl implements ShopCustomRepository {
     private final JPQLQueryFactory queryFactory;
 
     @Override
-    public Page<Shop> search(String name, String city, String category, String district, Pageable pageable) {
+    public Page<Shop> search(ShopSearchParam shopSearchParam, Pageable pageable) {
         QShop shop = QShop.shop;
 
         long total = queryFactory
                 .selectFrom(shop)
                 .where(
-                        shopName(name),
-                        shopCity(city),
-                        shopCategory(category),
-                        shopDistrict(district)
+                        shopName(shopSearchParam.getName()),
+                        shopCity(shopSearchParam.getCity()),
+                        shopCategory(shopSearchParam.getCategory()),
+                        shopDistrict(shopSearchParam.getDistrict())
                 )
                 .fetchCount();
 
         List<Shop> shops = queryFactory
                 .selectFrom(shop)
                 .where(
-                        shopName(name),
-                        shopCity(city),
-                        shopCategory(category),
-                        shopDistrict(district)
+                        shopName(shopSearchParam.getName()),
+                        shopCity(shopSearchParam.getCity()),
+                        shopCategory(shopSearchParam.getCategory()),
+                        shopDistrict(shopSearchParam.getDistrict())
                 )
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())

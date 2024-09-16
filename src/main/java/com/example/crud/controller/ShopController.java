@@ -1,6 +1,7 @@
 package com.example.crud.controller;
 
 import com.example.crud.dto.param.ShopRegisterParam;
+import com.example.crud.dto.param.ShopSearchParam;
 import com.example.crud.dto.param.ShopUpdateParam;
 import com.example.crud.dto.response.ApiResponse;
 import com.example.crud.dto.shop.ShopRegisterRequest;
@@ -35,9 +36,10 @@ public class ShopController {
     }
 
     @GetMapping("/shops")
-    public ApiResponse<?> search(@RequestParam(required = false) String name, @RequestParam(required = false) String city, @RequestParam(required = false) String category, @RequestParam(required = false) String district, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+    public ApiResponse<?> search(@ModelAttribute ShopSearchParam shopSearchParam, @RequestParam(defaultValue = "0") int page,
+                                 @RequestParam(defaultValue = "10") int size) {
         Pageable pageable = PageRequest.of(page, size);
-        return ApiResponse.of(shopService.searchShop(name, city, category, district, pageable));
+        return ApiResponse.of(shopService.searchShop(shopSearchParam, pageable));
     }
 
     @PatchMapping("/shops/{id}")
