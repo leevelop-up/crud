@@ -1,6 +1,7 @@
 package com.example.crud.dto.param;
 
 import com.example.crud.domain.Shop;
+import com.example.crud.enums.Category;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -18,8 +19,8 @@ public class ShopRegisterParam {
     private String name;
     @NotNull
     private Float rating;
-    @NotBlank
-    private String category;
+    @NotNull
+    private Category category;
     @NotBlank
     private String city;
     @NotBlank
@@ -35,7 +36,7 @@ public class ShopRegisterParam {
         return Shop.builder()
                 .name(name)
                 .rating(rating)
-                .category(category)
+                .category(String.valueOf(category))
                 .city(city)
                 .district(district)
                 .capacity(capacity)
