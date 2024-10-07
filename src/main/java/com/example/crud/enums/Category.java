@@ -7,9 +7,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public enum Category {
     JAPANESE,
-    KOREAN_,
-    CHINESE_,
+    KOREAN,
+    CHINESE,
     WESTERN,
-    FAST,
+    FASTFOOD,
     DESSERT
 }
