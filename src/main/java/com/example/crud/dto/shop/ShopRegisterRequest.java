@@ -29,12 +29,11 @@ public class ShopRegisterRequest {
     private String district;
     @NotNull
     private Integer capacity;
-
-    @NotNull
     @JsonFormat(pattern = "HH:mm:ss")
+    @NotNull
     private LocalTime openTime;
-    @NotNull
     @JsonFormat(pattern = "HH:mm:ss")
+    @NotNull
     private LocalTime closeTime;
 
     public ShopRegisterParam toParam() {
