@@ -47,7 +47,7 @@ public class MemberService {
     public void updateMember(Integer id, MemberUpdateParam param) {
         Member existingMember = memberJpaRepository.findById(id)
                 .orElseThrow(() -> {throw new CrudException(VALUE_NOT_FOUND, "Member not found");});
-        existingMember.updateFromDto(param);
+        existingMember.update(param);
 
     }
 }

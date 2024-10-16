@@ -41,7 +41,7 @@ public class Member extends BaseTimeEntity{
                 '}';
     }
 
-    public void updateFromDto(MemberUpdateParam param) {
+    public void update(MemberUpdateParam param) {
         this.name = param.getName();
         this.phoneNumber = param.getPhoneNumber();
         this.gender = param.getGender();
